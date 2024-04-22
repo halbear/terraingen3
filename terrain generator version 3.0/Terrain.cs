@@ -207,6 +207,7 @@ namespace terrain_generator_version_3._0
                                 TreeBuild--;
                                 j -= intOptions[13] + 3;
                             }
+                            else OptionsSaved[7] = "false";
                         }
                     }
                 }
@@ -293,7 +294,7 @@ namespace terrain_generator_version_3._0
             int block = 0;
 
             StreamReader SR = new StreamReader(WorldDataFile);
-            string Loadedleveldata = Convert.ToString(SR.ReadLine()) + "#";
+            string Loadedleveldata = Convert.ToString(SR.ReadLine()) + "######";
             SR.Close();
             string[] BlocksToBeLoaded = new string[Loadedleveldata.Length];
             for (int i = 0; i < Loadedleveldata.Length; i++)
@@ -322,11 +323,11 @@ namespace terrain_generator_version_3._0
             }
             sw.Close();
             int GenX = 0;
-            int GenY = WorldHeight + 2;
+            int GenY = WorldHeight +1;
             Array.Resize(ref Blocks, BlocksToBeLoaded.Length);
             for (int i = 0; i < BlocksToBeLoaded.Length - 7; i++)
             {
-                BlockGenY = (GenY * 16) - 16;
+                BlockGenY = (GenY * 16) -16;
                 BlockGenX = GenX * 16;
                 if (BlocksToBeLoaded[i] == ",")
                 {
@@ -347,17 +348,11 @@ namespace terrain_generator_version_3._0
         }
         private void Buildblock(int blocktype, int BlockGenY, int BlockGenX, int block)
         {
-            PointF BlockPos = new PointF(BlockGenX, BlockGenY);
-            Blocks[block] = new BlockRender(0, BlockPos, BlockImg[blocktype]);
-
-            /* var Block = new PictureBox
-             {
-                 Name = "Block" + Convert.ToString(block),
-                 Size = new Size(16, 16),
-                 Location = new Point(BlockGenX + offsetx, BlockGenY + offsety),
-                 Image = BlockImg[BlockType],
-             };
-             GameWindow.Controls.Add(Block);*/
+            if (blocktype < BlockImg.Length)
+            {
+                PointF BlockPos = new PointF(BlockGenX, BlockGenY);
+                Blocks[block] = new BlockRender(0, BlockPos, BlockImg[blocktype]);
+            }
         }
         private void Terrain_Load(object sender, EventArgs e)
         {
@@ -430,10 +425,6 @@ namespace terrain_generator_version_3._0
                 }
             }
             GameRenderFrame.Refresh();
-
-
-
         }
-
     }
 }
