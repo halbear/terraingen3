@@ -49,7 +49,7 @@ namespace terrain_generator_version_3._0
 
         private void WorldName_TextChanged(object sender, EventArgs e)
         {
-            WorldDataFile = WorldName.Text + ".txt";
+            WorldDataFile = WorldName.Text;
         }
     }
 }
